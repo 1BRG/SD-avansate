@@ -17,7 +17,7 @@ namespace Leftist {
   class leftist_heap {
         LeftistNode *root;
       public:
-      leftist_heap();;
+      leftist_heap();
       LeftistNode * Merge(LeftistNode *node1, LeftistNode *node2);
       void Merge(leftist_heap &rhs);
       void insert(int val);

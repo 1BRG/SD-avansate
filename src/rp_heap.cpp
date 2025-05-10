@@ -47,7 +47,7 @@ namespace RP {
     }
 
     int rp_heap::bucket_size() const {
-        return ceil(log2(heapSize + 1) + 2);
+        return ceil((31 - __builtin_clz(heapSize) + 1) + 2);
     }
     void rp_heap::merge(rp_heap &b) {
     if (!b.head) return;
@@ -195,7 +195,8 @@ namespace RP {
         bucket[nod->rank] = nod;
     }
 
-    rp_heap:: ~rp_heap() {
+    rp_heap:: ~rp_heap()
+    {
         clear();
     }
 }

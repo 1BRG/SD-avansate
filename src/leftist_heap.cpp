@@ -2,6 +2,7 @@
 #include "../include/leftist_heap.h"
 
 #include <future>
+#include <stack>
 
 namespace Leftist {
 
@@ -14,7 +15,9 @@ namespace Leftist {
 
   inline LeftistNode::~LeftistNode() {
     delete left;
+    left = nullptr;
     delete right;
+    right = nullptr;
   }
 
   LeftistNode * LeftistNode::clone() {
@@ -58,7 +61,7 @@ namespace Leftist {
   }
 
   leftist_heap::~leftist_heap() {
-    delete root;
+    makeEmpty();
   }
 
   int leftist_heap::findMin() {
@@ -66,8 +69,19 @@ namespace Leftist {
   }
 
   void leftist_heap::makeEmpty() {
-    delete root;
+    if (!root) return;
+    std::stack<LeftistNode*> st;
+    st.push(root);
+    // Rupe legăturile ca să nu mai fie recursivitate în destructor
     root = nullptr;
+    while (!st.empty()) {
+      LeftistNode* cur = st.top(); st.pop();
+      if (cur->left)  st.push(cur->left);
+      if (cur->right) st.push(cur->right);
+      // Dezactivează destructorul recursiv
+      cur->left = cur->right = nullptr;
+      delete cur;
+    }
   }
 
   leftist_heap::leftist_heap(leftist_heap &rhs) {
