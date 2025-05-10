@@ -7,8 +7,8 @@
 #include <iostream>
 #include <stdexcept>
 
-
-bool rp_heap::empty() const {
+namespace RP {
+    bool rp_heap::empty() const {
         return heapSize == 0;
     }
 
@@ -19,7 +19,9 @@ bool rp_heap::empty() const {
     const int rp_heap::top() const {
         if (head)
             return head->val;
-       std::cout << "rp_heap::top() on empty heap";
+        std::cout<< "rp_heap::top() on empty heap";
+        throw std::exception();
+
     }
 
     void rp_heap::insert_root(Node *nod) {
@@ -129,13 +131,13 @@ bool rp_heap::empty() const {
     void rp_heap::clear() {
         if(!head)
             return;
-    Node* last = head;
-    while (last->next != head) {
-        last = last->next;
-    }
-    last->next = nullptr;
-    std::stack<Node*> q;
-    q.push(head);
+        Node* last = head;
+        while (last->next != head) {
+            last = last->next;
+        }
+        last->next = nullptr;
+        std::stack<Node*> q;
+        q.push(head);
         while (!q.empty()) {
             Node *nod = q.top();
             q.pop();
@@ -177,7 +179,7 @@ bool rp_heap::empty() const {
         heapSize --;
     }
 
-void rp_heap::pop(Node *nod) {
+    void rp_heap::pop(Node *nod) {
         if (empty() || nod == nullptr)
             return;
         decrease(nod, -1000000005);
@@ -192,6 +194,8 @@ void rp_heap::pop(Node *nod) {
         }
         bucket[nod->rank] = nod;
     }
-rp_heap:: ~rp_heap() {
+
+    rp_heap:: ~rp_heap() {
         clear();
     }
+}
