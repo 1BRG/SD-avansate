@@ -33,7 +33,10 @@ bool rp_heap::empty() const {
                 head = nod;
         }
     }
-
+    Node * rp_heap::get_head()
+    {
+        return this->head;
+    }
     Node * rp_heap::push(const int val) {
         Node *nod = new Node{val};
         insert_root(nod);
@@ -44,7 +47,23 @@ bool rp_heap::empty() const {
     int rp_heap::bucket_size() const {
         return ceil(log2(heapSize + 1) + 2);
     }
-
+    void rp_heap::merge(rp_heap &b) {
+    if (!b.head) return;
+    if (!head) {
+        head = b.head;
+        heapSize = b.heapSize;
+    } else {
+        Node* a_next = head->next;
+        Node* b_next = b.head->next;
+        head->next = b_next;
+        b.head->next = a_next;
+        if (b.head->val < head->val)
+            head = b.head;
+        heapSize += b.heapSize;
+    }
+    b.head = nullptr;
+    b.heapSize = 0;
+}
     Node *rp_heap::link(Node *x, Node *y) {
         if (y == nullptr)
             return x;
@@ -108,6 +127,8 @@ bool rp_heap::empty() const {
     }
 
     void rp_heap::clear() {
+        if(!head)
+            return;
     Node* last = head;
     while (last->next != head) {
         last = last->next;

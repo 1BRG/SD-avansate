@@ -9,7 +9,6 @@
 #define RP_HEAP_H
 
 
-
 struct Node {
     int val, rank;
     Node *left, *next, *parent;
@@ -35,14 +34,12 @@ public:
     int size() const;
     const int top() const;
     Node *push(const int val);
+    Node *get_head();
     void decrease(Node *nod, int val);
     void clear();
+    void merge(rp_heap &b);
     void pop();
 
     void pop(Node *nod);
     ~rp_heap();
 };
-
-
-
-#endif //RP_HEAP_H
